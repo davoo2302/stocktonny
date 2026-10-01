@@ -59,8 +59,8 @@ button{font:inherit;color:inherit}
 @media (min-width:640px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}}
 @media (min-width:920px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;text-align:left;padding:0;cursor:pointer;display:flex;flex-direction:column}
-.card .img{aspect-ratio:1;background:var(--soft);display:grid;place-items:center;color:var(--muted);position:relative}
-.card .img img{width:100%;height:100%;object-fit:cover;display:block}
+.card .img{aspect-ratio:1;background:var(--soft);display:grid;place-items:center;color:var(--muted);position:relative;overflow:hidden}
+.card .img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .card .badge{position:absolute;left:8px;top:8px;background:var(--hero);color:var(--hero-ink);font-size:11px;font-weight:700;padding:3px 8px;border-radius:99px}
 .card .b{padding:10px 11px 12px}
 .card .cat{font-size:12px;color:var(--muted);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -94,7 +94,7 @@ button{font:inherit;color:inherit}
 .sh-head h2{margin:0;flex:1;min-width:0;font:600 20px/1.1 "Barlow Condensed",sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sh-body{width:100%;max-width:720px;margin:0 auto;padding:14px 14px 24px;flex:1}
 .gal{position:relative;background:var(--soft);border:1px solid var(--line);border-radius:18px;overflow:hidden;aspect-ratio:1;max-height:72vh;display:grid;place-items:center;touch-action:pan-y}
-.gal img{width:100%;height:100%;object-fit:contain;display:block}
+.gal img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
 .gn{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:0;background:rgba(20,27,38,.55);color:#fff;display:grid;place-items:center;cursor:pointer}
 .gn.l{left:8px}.gn.r{right:8px}
 .dots{display:flex;gap:6px;justify-content:center;margin:10px 0 2px}
