@@ -1,6 +1,6 @@
 // Service worker: deja la app disponible sin internet.
 // Los datos (Firestore) tienen su propia memoria offline; esto guarda solo la "cáscara" de la app.
-const CACHE = 'stock-tonny-v1';
+const CACHE = 'stock-tonny-v2';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 const RUNTIME_HOSTS = ['www.gstatic.com', 'fonts.googleapis.com', 'fonts.gstatic.com', 'cdn.jsdelivr.net'];
 
@@ -22,11 +22,13 @@ self.addEventListener('fetch', e => {
   const u = new URL(r.url);
 
   // Al abrir la app: primero internet (para tener siempre la última versión), si no hay, la copia guardada.
+  // Solo la pantalla principal se guarda como "la app"; cualquier otra página del sitio se deja pasar sin tocarla.
   if (u.origin === location.origin && r.mode === 'navigate') {
+    const isApp = u.pathname.endsWith('/') || u.pathname.endsWith('/index.html');
     e.respondWith(
       fetch(r)
-        .then(res => { const copy = res.clone(); caches.open(CACHE).then(c => c.put('./index.html', copy)); return res; })
-        .catch(() => caches.match('./index.html'))
+        .then(res => { if (isApp && res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put('./index.html', copy)); } return res; })
+        .catch(() => isApp ? caches.match('./index.html') : caches.match(r))
     );
     return;
   }
