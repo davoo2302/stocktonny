@@ -32,6 +32,10 @@ button{font:inherit;color:inherit}
 .cond{font-family:"Barlow Condensed","Arial Narrow",system-ui,sans-serif}
 .wrap{max-width:980px;margin:0 auto;padding:0 14px}
 
+/* barra de vista previa (solo cuando se abre desde la app) */
+.backbar{background:var(--hero);border-bottom:1px solid var(--hero-line);padding:9px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:14px}
+.backbar a{color:var(--hero-ink);font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:4px 2px}
+.backbar span{color:var(--hero-muted);text-align:right}
 /* encabezado */
 .hero{background:var(--hero);color:var(--hero-ink);border-radius:0 0 22px 22px;padding:18px 0 16px;margin-bottom:12px}
 .brand{display:flex;align-items:center;gap:12px;margin-bottom:14px}
@@ -130,6 +134,7 @@ button{font:inherit;color:inherit}
 </style>
 </head>
 <body>
+<div class="backbar" id="backbar" hidden><a href="./?ir=catalogo">← Volver a la app</a><span>Así lo ven tus clientes</span></div>
 <header class="hero"><div class="wrap">
   <div class="brand"><div class="logo" id="logo">C</div><div><h1 id="brand">Catálogo</h1><p id="tagline"></p></div></div>
   <label class="search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="Buscar productos" autocomplete="off" aria-label="Buscar"></label>
@@ -397,7 +402,7 @@ function sendCart(){
 function checkPending(){
   if(pendingP&&items.some(x=>x.id===pendingP)){const id=pendingP;pendingP=null;history.replaceState(null,'',pageUrl());openDetail(id)}
 }
-try{const p=new URL(location.href).searchParams.get('p');if(p)pendingP=p}catch(e){}
+try{const sp=new URL(location.href).searchParams;if(sp.get('vista')==='app')$('backbar').hidden=false;const p=sp.get('p');if(p)pendingP=p}catch(e){}
 load();
 </script>
 </body>

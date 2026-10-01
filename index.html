@@ -337,6 +337,7 @@ var S=blank();
 var view='inicio',period='30',homeQuery='',prodQuery='',prodCat='',movFilter='todos';
 var cart={venta:[],ingreso:[]},cartNote={venta:'',ingreso:''},cartQuery={venta:'',ingreso:''},updateCost=true,recalcPrice=false;
 var draft=null,newCatOpen=false;
+var BOOT_VIEW=(function(){try{return new URL(location.href).searchParams.get('ir')==='catalogo'?'catalogo':null}catch(e){return null}})();
 var catLoaded=false,catFilter='todas',catDraft=null,catCfg=null,catSug=[];
 var user=null,unsubs=[],flags={p:false,m:false,c:false},booted=false,pending=false,fotoCache={},sheetPid=null,cfgTimer=null,dirty=false,DEV=/[?&]dev\b/.test(location.search);
 
@@ -862,7 +863,7 @@ function catConfigSave(){
   closeSheet();toast('Configuración guardada');render();
 }
 function copyLink(){var l=catLink();if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(l).then(function(){toast('Link copiado')},function(){toast(l)});else toast(l)}
-function openLink(){window.open(catLink(),'_blank','noopener')}
+function openLink(){location.href=catLink()+'?vista=app'}
 
 /* ---------- ajustes y ejemplo ---------- */
 function settings(){
@@ -940,7 +941,7 @@ function startListening(){
 function ready(){
   updateNet();
   if(!(flags.p&&flags.m&&flags.c))return;
-  if(!booted){booted=true;$('#boot').hidden=true;$('#auth').hidden=true;view='inicio';render()}else softRender();
+  if(!booted){booted=true;$('#boot').hidden=true;$('#auth').hidden=true;view=BOOT_VIEW||'inicio';if(BOOT_VIEW){BOOT_VIEW=null;try{var u=new URL(location.href);u.searchParams.delete('ir');history.replaceState(null,'',u.toString())}catch(e){}}render()}else softRender();
 }
 function onListenErr(e){
   if(e&&e.code==='permission-denied'){stopListening();showAuth('denied');return}
